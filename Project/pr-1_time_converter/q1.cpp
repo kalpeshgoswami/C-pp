@@ -24,25 +24,38 @@ public:
 int main()
 {
     TimeConverter T;
-    int seconds;
+    int choice;
 
-    cout << "Enter total seconds" << endl;
-    cin >> seconds;
+    cout << "1. Convert Seconds to Time" << endl;
+    cout << "2. Convert Time to Seconds" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
 
-    T.secondToTime(seconds);
-
-    int h, m, s;
-
-    cout << "\n\nEnter hours: " << endl;
-    cin >> h;
-
-    cout << "Enter minutes: " << endl;
-    cin >> m;
-
-    cout << "Enter seconds: " << endl;
-    cin >> s;
-
-    T.timeToSecond(h,m,s);
+    switch (choice)
+    {
+    case 1:
+    {
+        int seconds;
+        cout << "Enter total seconds: ";
+        cin >> seconds;
+        T.secondToTime(seconds);
+        break;
+    }
+    case 2:
+    {
+        int h, m, s;
+        cout << "Enter hours: ";
+        cin >> h;
+        cout << "Enter minutes: ";
+        cin >> m;
+        cout << "Enter seconds: ";
+        cin >> s;
+        T.timeToSecond(h, m, s);
+        break;
+    }
+    default:
+        cout << "Invalid choice!" << endl;
+    }
 
     return 0;
 }

@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 
@@ -86,11 +87,12 @@ int main()
     cin >> n;
     // cin.ignore;
 
-    for (int i=0; i<n; i++){
+    for (int i = 0; i < n; i++)
+    {
         Cafe c;
         c.SetCafeData();
         c.DisplayCafeData();
     }
 
     return 0;
-}
+}   
