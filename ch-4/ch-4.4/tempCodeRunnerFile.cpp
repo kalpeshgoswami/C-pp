@@ -100,9 +100,9 @@ public:
 
 int main()
 {
-    Student s1(1, 6.8, "John ");
-    Student s2(2, 9.2, "Jack ");
-    Student s3(3, 8.4, "sparrow ");
+    Student s1(1, 7.7, "John");
+    Student s2(2, 8.7, "Jack");
+    Student s3(3, 9.7, "sparrow");
 
     StudentRecordManagement manager;
 
