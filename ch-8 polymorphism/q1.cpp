@@ -3,7 +3,6 @@ using namespace std;
 
 class Num
 {
-
     int value;
 
 public:
@@ -11,7 +10,6 @@ public:
     {
         value = v;
     }
-
     bool operator<(Num obj)
     {
         if (value < obj.value)
@@ -23,7 +21,6 @@ public:
             return false;
         }
     }
-
     void display()
     {
         cout << value;
@@ -31,19 +28,16 @@ public:
 };
 int main()
 {
-
-    Num n1(100);
-    Num n2(20);
+    Num n1(80);
+    Num n2(50);
 
     if (n1 < n2)
     {
-
         cout << "n2 contain higher value : ";
         n2.display();
     }
     else
     {
-
         cout << "n1 contain higher value: ";
         n1.display();
     }

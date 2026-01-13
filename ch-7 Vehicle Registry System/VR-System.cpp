@@ -1,65 +1,53 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
+
+// ------ Base Class ------
 
 class Vehicle
 {
-private:
-    int vehicle_id;
+protected:
+    int vehicleID;
     string manufacturer;
     string model;
     int year;
 
 public:
-    static int totalvehicles;
+    static int totalVehicles;
 
     Vehicle()
     {
-        vehicle_id = 0;
-        manufacturer = "not set";
-        model = "Unknown";
+        vehicleID = 0;
         year = 0;
-        totalvehicles++;
     }
 
     Vehicle(int id, string manu, string mod, int yr)
     {
-        vehicle_id = id;
+        vehicleID = id;
         manufacturer = manu;
         model = mod;
         year = yr;
-        totalvehicles++;
+        totalVehicles++;
     }
 
-    ~Vehicle()
-    {
-        totalvehicles--;
-    }
+    virtual ~Vehicle() {}
 
+    // Setter
     void setVehicleID(int id)
     {
-        vehicle_id = id;
+        if (id > 0)
+            vehicleID = id;
     }
 
-    void setManufacturer(string manu)
-    {
-        manufacturer = manu;
-    }
-
-    void setModel(string mod)
-    {
-        model = mod;
-    }
-
-    void setYear(int yr)
-    {
-        year = yr;
-    }
-
+    // Getter
     int getVehicleID()
     {
-        return vehicle_id;
+        return vehicleID;
+    }
+
+    void setManufacturer(string m)
+    {
+        manufacturer = m;
     }
 
     string getManufacturer()
@@ -67,37 +55,250 @@ public:
         return manufacturer;
     }
 
-    string getModel()
+    virtual void display() const
     {
-        return model;
-    }
-
-    int getYear()
-    {
-        return year;
-    }
-
-    void display()
-    {
-        cout << "Vehicle ID     : " << vehicle_id << endl;
-        cout << "Manufacturer   : " << manufacturer << endl;
-        cout << "Model          : " << model << endl;
-        cout << "Year           : " << year << endl;
+        cout << "ID             : " << vehicleID
+             << "Manufacturer   : " << manufacturer
+             << "Model          : " << model
+             << "Year           : " << year;
     }
 };
 
-int Vehicle::totalvehicles = 0;
+int Vehicle::totalVehicles = 0;
 
+// ------- Single Inheritance --------
+
+class Car : public Vehicle
+{
+protected:
+    string fuelType;
+
+public:
+    Car() : Vehicle() {}
+
+    Car(int id, string manu, string mod, int yr, string fuel)
+        : Vehicle(id, manu, mod, yr), fuelType(fuel) {}
+
+    void display() const override
+    {
+        Vehicle::display();
+        cout << "Fuel Type: " << fuelType;
+    }
+};
+
+// Multilevel Inheritance
+
+class ElectricCar : public Car
+{
+protected:
+    int batteryCapacity;
+
+public:
+    ElectricCar(int id, string manu, string mod, int yr, string fuel, int battery)
+        : Car(id, manu, mod, yr, fuel), batteryCapacity(battery) {}
+
+    void display() const override
+    {
+        Car::display();
+        cout << ", Battery: " << batteryCapacity << " kWh";
+    }
+};
+
+class SportsCar : public ElectricCar
+{
+    int topSpeed;
+
+public:
+    SportsCar(int id, string manu, string mod, int yr, string fuel, int battery, int speed)
+        : ElectricCar(id, manu, mod, yr, fuel, battery), topSpeed(speed) {}
+
+    void display() const override
+    {
+        ElectricCar::display();
+        cout << "Top Speed: " << topSpeed << " km/h";
+    }
+};
+
+// ---------------- Hierarchical Inheritance ----------------
+class Sedan : public Car
+{
+public:
+    Sedan(int id, string manu, string mod, int yr, string fuel)
+        : Car(id, manu, mod, yr, fuel) {}
+
+    void display() const override
+    {
+        cout << "[Sedan] ";
+        Car::display();
+    }
+};
+
+class SUV : public Car
+{
+public:
+    SUV(int id, string manu, string mod, int yr, string fuel)
+        : Car(id, manu, mod, yr, fuel) {}
+
+    void display() const override
+    {
+        cout << "[SUV] ";
+        Car::display();
+    }
+};
+
+// ---------------- Multiple Inheritance ----------------
+class Aircraft
+{
+protected:
+    int flightRange;
+
+public:
+    Aircraft(int range = 0)
+    {
+        flightRange = range;
+    }
+};
+
+class FlyingCar : public Car, public Aircraft
+{
+public:
+    FlyingCar(int id, string manu, string mod, int yr, string fuel, int range)
+        : Car(id, manu, mod, yr, fuel), Aircraft(range) {}
+
+    void display() const
+    {
+        cout << "[FlyingCar] ID: " << vehicleID
+             << ", Manufacturer: " << manufacturer
+             << ", Model: " << model
+             << ", Year: " << year
+             << ", Fuel: " << fuelType
+             << ", Flight Range: " << flightRange << " km";
+    }
+};
+
+// ---------------- Vehicle Registry ----------------
+class VehicleRegistry
+{
+    Vehicle *vehicles[50];
+    int count;
+
+public:
+    VehicleRegistry()
+    {
+        count = 0;
+    }
+
+    void addVehicle(Vehicle *v)
+    {
+        if (count < 50)
+        {
+            vehicles[count++] = v;
+            cout << "Vehicle added successfully!\n";
+        }
+        else
+        {
+            cout << "Registry is full!\n";
+        }
+    }
+
+    void displayAll() const
+    {
+        if (count == 0)
+        {
+            cout << "No vehicles found.\n";
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            vehicles[i]->display();
+            cout << endl;
+        }
+    }
+
+    void searchByID(int id) const
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (vehicles[i]->getVehicleID() == id)
+            {
+                vehicles[i]->display();
+                cout << endl;
+                return;
+            }
+        }
+        cout << "Vehicle not found!\n";
+    }
+};
+
+// Main 
 int main()
 {
-    Vehicle v1(1, "Toyota", "Corolla", 2020);
-    Vehicle v2(2, "Honda", "Civic", 2022);
+    VehicleRegistry registry;
+    int choice;
 
-    v1.display();
-    cout << endl;
-    v2.display();
+    do
+    {
+        cout << "\n--- Vehicle Registry System ---\n";
+        cout << "1. Add Sedan\n";
+        cout << "2. Add SUV\n";
+        cout << "3. Add Sports Car\n";
+        cout << "4. Add Flying Car\n";
+        cout << "5. View All Vehicles\n";
+        cout << "6. Search by ID\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
 
-    cout << "\nTotal Vehicles: " << Vehicle::totalvehicles << endl;
+        int id, year, battery, speed, range;
+        string manu, model, fuel;
 
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter ID, Manufacturer, Model, Year, Fuel: ";
+            cin >> id >> manu >> model >> year >> fuel;
+            registry.addVehicle(new Sedan(id, manu, model, year, fuel));
+            break;
+
+        case 2:
+            cout << "Enter ID, Manufacturer, Model, Year, Fuel: ";
+            cin >> id >> manu >> model >> year >> fuel;
+            registry.addVehicle(new SUV(id, manu, model, year, fuel));
+            break;
+
+        case 3:
+            cout << "Enter ID, Manufacturer, Model, Year, Fuel, Battery, Speed: ";
+            cin >> id >> manu >> model >> year >> fuel >> battery >> speed;
+            registry.addVehicle(new SportsCar(id, manu, model, year, fuel, battery, speed));
+            break;
+
+        case 4:
+            cout << "Enter ID, Manufacturer, Model, Year, Fuel, Flight Range: ";
+            cin >> id >> manu >> model >> year >> fuel >> range;
+            registry.addVehicle((Vehicle *)new FlyingCar(id, manu, model, year, fuel, range));
+            break;
+
+        case 5:
+            registry.displayAll();
+            break;
+
+        case 6:
+            cout << "Enter ID to search: ";
+            cin >> id;
+            registry.searchByID(id);
+            break;
+
+        case 0:
+            cout << "Exiting...\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 0);
+
+    cout << "Total Vehicles Created: " << Vehicle::totalVehicles << endl;
     return 0;
 }
