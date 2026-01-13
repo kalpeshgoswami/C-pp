@@ -2,8 +2,6 @@
 #include <string>
 using namespace std;
 
-// ------ Base Class ------
-
 class Vehicle
 {
 protected:
@@ -32,14 +30,12 @@ public:
 
     virtual ~Vehicle() {}
 
-    // Setter
     void setVehicleID(int id)
     {
         if (id > 0)
             vehicleID = id;
     }
 
-    // Getter
     int getVehicleID()
     {
         return vehicleID;
@@ -66,8 +62,6 @@ public:
 
 int Vehicle::totalVehicles = 0;
 
-// ------- Single Inheritance --------
-
 class Car : public Vehicle
 {
 protected:
@@ -85,8 +79,6 @@ public:
         cout << "Fuel Type: " << fuelType;
     }
 };
-
-// Multilevel Inheritance
 
 class ElectricCar : public Car
 {
@@ -119,7 +111,6 @@ public:
     }
 };
 
-// ---------------- Hierarchical Inheritance ----------------
 class Sedan : public Car
 {
 public:
@@ -146,7 +137,6 @@ public:
     }
 };
 
-// ---------------- Multiple Inheritance ----------------
 class Aircraft
 {
 protected:
@@ -176,7 +166,6 @@ public:
     }
 };
 
-// ---------------- Vehicle Registry ----------------
 class VehicleRegistry
 {
     Vehicle *vehicles[50];
@@ -231,7 +220,6 @@ public:
     }
 };
 
-// Main 
 int main()
 {
     VehicleRegistry registry;
