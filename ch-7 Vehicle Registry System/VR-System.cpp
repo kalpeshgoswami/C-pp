@@ -53,10 +53,11 @@ public:
 
     virtual void display() const
     {
-        cout << "ID             : " << vehicleID
-             << "Manufacturer   : " << manufacturer
-             << "Model          : " << model
-             << "Year           : " << year;
+        cout << "ID             : " << vehicleID << endl;
+        cout << "Manufacturer   : " << manufacturer << endl;
+        cout << "Model          : " << model << endl;
+        cout << "Year           : " << year << endl;
+        ;
     }
 };
 
