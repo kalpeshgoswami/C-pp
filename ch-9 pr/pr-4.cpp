@@ -41,9 +41,9 @@ public:
 
     virtual void displayAccountInfo()
     {
-        cout << "\nAccount No: " << accountNumber << endl;
+        cout << "Account No : " << accountNumber << endl;
         cout << "Holder Name: " << accountHolderName << endl;
-        cout << "Balance: " << balance << endl;
+        cout << "Balance    : " << balance << endl;
     }
 
     virtual void calculateInterest() = 0;
