@@ -133,13 +133,13 @@ int main()
     do
     {
         cout << "\n--- Library Management System ---\n";
-        cout << "1. Add Book\n";
-        cout << "2. Add DVD\n";
-        cout << "3. Display All Items\n";
-        cout << "4. Check Out Item\n";
-        cout << "5. Return Item\n";
-        cout << "6. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "1. Add Book" << endl;
+        cout << "2. Add DVD" << endl;
+        cout << "3. Display All Items" << endl;
+        cout << "4. Check Out Item" << endl;
+        cout << "5. Return Item" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: " << endl;
         cin >> choice;
 
         try
